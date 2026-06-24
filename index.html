@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta name="description" content="MetaVoxa Research investigates the distance between lived reality and institutional recognition — where gaps are identified, evidence is generated, and change is documented.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MetaVoxa",
+  "url": "https://metavoxa.com",
+  "sameAs": [
+    "https://open.substack.com/pub/metavoxa",
+    "https://www.linkedin.com/in/martha-koroma-67a28b191",
+    "https://www.instagram.com/kwissbae",
+    "https://orcid.org/0000-0003-4152-3863",
+    "https://www.marthakoroma.com",
+    "https://cra.marthakoroma.com",
+    "https://github.com/semresident222-collab"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Martha Wuya Koroma",
+    "url": "https://www.marthakoroma.com"
+  }
+}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetaVoxa Research</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── THEMES ──────────────────────────────────────────── */
+:root{--copper:#B5673D;--copper-glow:rgba(181,103,61,0.12);}
+[data-theme="dark"]{
+  --bg:#0d0c09;--surface:#161410;--surface2:#1e1c17;
+  --border:#2a2620;--border-soft:rgba(42,38,32,0.6);
+  --text:#E8E0CC;--text-sec:#8A7A5A;--text-muted:#5A5040;
+  --gold:#C9A461;--stat-bg:#111009;--tag-bg:#201e18;
+  --card-hover:rgba(181,103,61,0.06);
+}
+[data-theme="light"]{
+  --bg:#FAF8F4;--surface:#FFFFFF;--surface2:#F3EEE6;
+  --border:#E8E3D8;--border-soft:rgba(232,227,216,0.8);
+  --text:#1A1612;--text-sec:#6B5E50;--text-muted:#9A8E82;
+  --gold:#9A6030;--stat-bg:#F0EBE3;--tag-bg:#EDE8DF;
+  --card-hover:rgba(181,103,61,0.04);
+}
+
+/* ── BASE ────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background 0.3s,color 0.3s;}
+
+  body.intro-lock{
+  overflow:hidden;
+}
+
+/* ── RESEARCH INTRO: WORLD AS CASE SCENE ───────────────── */
+.research-intro{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(181,103,61,0.12), transparent 32%),
+    radial-gradient(circle at 20% 18%, rgba(201,164,97,0.08), transparent 24%),
+    radial-gradient(circle at 80% 78%, rgba(201,164,97,0.06), transparent 28%),
+    #050403;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  transition:opacity 1.2s ease, visibility 1.2s ease;
+}
+
+.research-intro.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.case-grid{
+  position:absolute;
+  inset:0;
+  opacity:0.16;
+  background-image:
+    linear-gradient(rgba(201,164,97,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,97,0.12) 1px, transparent 1px);
+  background-size:54px 54px;
+  mask-image:radial-gradient(circle at center, black 0%, transparent 78%);
+}
+
+.world-outline{
+  position:absolute;
+  width:min(76vw,980px);
+  height:min(48vw,560px);
+  border:1px solid rgba(201,164,97,0.16);
+  border-radius:48% 52% 46% 54%;
+  opacity:0;
+  animation:worldReveal 5.6s ease forwards;
+}
+
+.world-outline::before,
+.world-outline::after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(201,164,97,0.22);
+  border-radius:50%;
+}
+
+.world-outline::before{
+  width:38%;
+  height:46%;
+  left:10%;
+  top:25%;
+  transform:rotate(-18deg);
+}
+
+.world-outline::after{
+  width:46%;
+  height:36%;
+  right:8%;
+  top:28%;
+  transform:rotate(14deg);
+}
+
+.case-line{
+  position:absolute;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(181,103,61,0.65), transparent);
+  transform-origin:left center;
+  opacity:0;
+  animation:lineTrace 5.4s ease forwards;
+}
+
+.l1{width:330px;top:39%;left:31%;transform:rotate(18deg);animation-delay:.6s;}
+.l2{width:260px;top:52%;left:44%;transform:rotate(-24deg);animation-delay:.9s;}
+.l3{width:300px;top:61%;left:29%;transform:rotate(-8deg);animation-delay:1.1s;}
+.l4{width:240px;top:34%;left:52%;transform:rotate(34deg);animation-delay:1.3s;}
+
+.evidence-marker{
+  position:absolute;
+  z-index:4;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  letter-spacing:.12em;
+  color:#C9A461;
+  border:1px solid rgba(201,164,97,0.34);
+  background:rgba(10,9,6,0.74);
+  padding:8px 10px;
+  opacity:0;
+  transform:translateY(12px);
+  animation:markerAppear 4.8s ease forwards;
+}
+
+.m1{top:25%;left:18%;animation-delay:.4s;}
+.m2{top:62%;left:22%;animation-delay:.8s;}
+.m3{top:31%;right:23%;animation-delay:1.1s;}
+.m4{bottom:26%;right:18%;animation-delay:1.4s;}
+.m5{bottom:18%;left:45%;animation-delay:1.7s;}
+
+.social-residue{
+  position:absolute;
+  z-index:3;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(181,103,61,0.68);
+  opacity:0;
+  animation:residueDrift 5.8s ease forwards;
+}
+
+.r1{top:18%;left:40%;animation-delay:.5s;}
+.r2{top:45%;left:12%;animation-delay:.9s;}
+.r3{top:72%;left:30%;animation-delay:1.2s;}
+.r4{top:48%;right:13%;animation-delay:1.5s;}
+.r5{top:23%;right:39%;animation-delay:1.8s;}
+.r6{bottom:14%;right:32%;animation-delay:2.1s;}
+
+.cultural-fragment{
+  position:absolute;
+  z-index:2;
+  color:rgba(232,224,204,0.26);
+  font-family:'Source Serif 4',serif;
+  font-style:italic;
+  font-size:clamp(1rem,2vw,1.6rem);
+  opacity:0;
+  animation:fragmentFade 5.8s ease forwards;
+}
+
+.f1{top:17%;left:9%;animation-delay:.7s;}
+.f2{top:15%;right:12%;animation-delay:1s;}
+.f3{bottom:19%;left:10%;animation-delay:1.3s;}
+.f4{bottom:23%;right:9%;animation-delay:1.6s;}
+
+.human-silhouette{
+  position:absolute;
+  z-index:3;
+  width:42px;
+  height:70px;
+  border:1px solid rgba(232,224,204,0.24);
+  border-radius:50% 50% 42% 42%;
+  opacity:0;
+  animation:silhouettePulse 5.6s ease forwards;
+}
+
+.human-silhouette::before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:1px solid rgba(232,224,204,0.28);
+  left:50%;
+  top:-16px;
+  transform:translateX(-50%);
+}
+
+.s1{top:36%;left:18%;animation-delay:1.1s;}
+.s2{top:57%;left:36%;animation-delay:1.5s;}
+.s3{top:34%;right:31%;animation-delay:1.9s;}
+.s4{top:58%;right:17%;animation-delay:2.3s;}
+
+.intro-core{
+  position:relative;
+  z-index:10;
+  text-align:center;
+  max-width:780px;
+  padding:0 24px;
+  animation:introCoreFade 6.1s ease forwards;
+}
+
+.intro-kicker{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--copper);
+  margin-bottom:18px;
+}
+
+.intro-title{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(3.4rem,7vw,7rem);
+  line-height:.92;
+  font-weight:700;
+  color:#E8E0CC;
+  letter-spacing:-.02em;
+}
+
+.intro-sub{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(1.05rem,2vw,1.45rem);
+  line-height:1.45;
+  font-style:italic;
+  color:rgba(232,224,204,0.68);
+  margin-top:24px;
+}
+
+.case-stamp{
+  display:inline-block;
+  margin-top:28px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.16em;
+  color:#C9A461;
+  border:1px solid rgba(201,164,97,0.36);
+  padding:9px 14px;
+  transform:rotate(-2deg);
+}
+
+.intro-skip{
+  position:absolute;
+  right:34px;
+  bottom:30px;
+  z-index:20;
+  background:transparent;
+  border:1px solid rgba(201,164,97,0.35);
+  color:#C9A461;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  letter-spacing:.14em;
+  padding:10px 14px;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+
+.intro-skip:hover{
+  background:rgba(201,164,97,0.08);
+  border-color:#C9A461;
+}
+
+@keyframes worldReveal{
+  0%{opacity:0;filter:blur(6px);transform:scale(.96);}
+  18%{opacity:.9;filter:blur(0);transform:scale(1);}
+  76%{opacity:.72;}
+  100%{opacity:0;filter:blur(5px);transform:scale(1.03);}
+}
+
+@keyframes lineTrace{
+  0%{opacity:0;clip-path:inset(0 100% 0 0);}
+  28%{opacity:1;clip-path:inset(0 0 0 0);}
+  78%{opacity:.7;}
+  100%{opacity:0;filter:blur(4px);}
+}
+
+@keyframes markerAppear{
+  0%{opacity:0;transform:translateY(12px) scale(.96);}
+  22%{opacity:1;transform:translateY(0) scale(1);}
+  75%{opacity:.86;}
+  100%{opacity:0;transform:translateY(-18px) scale(1.02);filter:blur(3px);}
+}
+
+@keyframes residueDrift{
+  0%{opacity:0;transform:translateY(18px) rotate(-2deg);}
+  24%{opacity:1;}
+  72%{opacity:.8;}
+  100%{opacity:0;transform:translateY(-30px) rotate(4deg);filter:blur(4px);}
+}
+
+@keyframes fragmentFade{
+  0%{opacity:0;transform:scale(.96);}
+  25%{opacity:.55;transform:scale(1);}
+  72%{opacity:.35;}
+  100%{opacity:0;filter:blur(4px);}
+}
+
+@keyframes silhouettePulse{
+  0%{opacity:0;transform:translateY(10px) scale(.94);}
+  22%{opacity:.65;transform:translateY(0) scale(1);}
+  42%{opacity:.18;}
+  62%{opacity:.62;}
+  100%{opacity:0;transform:translateY(-18px) scale(1.05);filter:blur(3px);}
+}
+
+@keyframes introCoreFade{
+  0%{opacity:0;transform:translateY(14px) scale(.98);}
+  14%{opacity:1;transform:translateY(0) scale(1);}
+  72%{opacity:1;}
+  100%{opacity:0;transform:translateY(-12px) scale(1.01);filter:blur(4px);}
+}
+
+@media(max-width:768px){
+  .evidence-marker{
+    font-size:7px;
+    padding:6px 8px;
+  }
+
+  .social-residue{
+    font-size:8px;
+  }
+
+  .cultural-fragment{
+    font-size:1rem;
+  }
+
+  .s3,
+  .s4,
+  .r5,
+  .r6,
+  .f3,
+  .f4{
+    display:none;
+  }
+
+  .intro-skip{
+    right:20px;
+    bottom:20px;
+  }
+}
+  
+/* ── NAV (always dark) ────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  height:54px;background:#0a0906;border-bottom:1px solid rgba(201,164,97,0.15);
+  display:flex;align-items:center;justify-content:space-between;padding:0 40px;gap:16px;
+}
+.n-brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
+.n-m{width:30px;height:30px;border:1px solid #C9A461;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Source Serif 4',serif;font-size:13px;color:#C9A461;}
+.n-name{font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;
+  letter-spacing:0.1em;color:#C9A461;}
+.n-links{display:flex;gap:0;overflow-x:auto;}
+.n-links a{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0.08em;
+  color:rgba(201,164,97,0.5);text-decoration:none;padding:0 16px;height:54px;
+  display:flex;align-items:center;border-bottom:2px solid transparent;
+  transition:all 0.2s;white-space:nowrap;}
+.n-links a:hover{color:#C9A461;}
+.n-links a.active{color:#C9A461;border-bottom:2px solid #C9A461;}
+.n-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.n-ecosystem{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(201,164,97,0.4);
+  letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;gap:6px;
+  background:none;border:none;white-space:nowrap;}
+.n-ecosystem:hover{color:rgba(201,164,97,0.7);}
+.toggle-btn{width:36px;height:20px;border-radius:10px;border:none;cursor:pointer;
+  background:#2a2620;position:relative;transition:background 0.3s;flex-shrink:0;}
+.toggle-knob{width:14px;height:14px;border-radius:50%;background:#E8E0CC;
+  position:absolute;top:3px;left:3px;transition:left 0.3s;}
+[data-theme="light"] .toggle-knob{left:19px;}
+[data-theme="light"] .toggle-btn{background:#D8D2C2;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{width:20px;height:1.5px;background:#C9A461;display:block;transition:all 0.3s;}
+
+/* MOBILE NAV DRAWER */
+.mobile-nav{
+  display:none;position:fixed;top:54px;left:0;right:0;bottom:0;
+  background:#0a0906;z-index:299;flex-direction:column;padding:32px 32px;gap:0;
+  border-top:1px solid rgba(201,164,97,0.15);
+}
+.mobile-nav.open{display:flex;}
+.mobile-nav a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;
+  color:rgba(201,164,97,0.6);text-decoration:none;padding:18px 0;
+  border-bottom:1px solid rgba(201,164,97,0.08);}
+.mobile-nav a:hover{color:#C9A461;}
+
+/* ECOSYSTEM DROPDOWN */
+.eco-dropdown{
+  position:fixed;top:54px;right:40px;z-index:299;
+  background:#0f0e0a;border:1px solid rgba(201,164,97,0.2);
+  padding:20px;min-width:260px;display:none;
+}
+.eco-dropdown.open{display:block;}
+.eco-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(201,164,97,0.5);
+  letter-spacing:0.14em;margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid rgba(201,164,97,0.12);}
+.eco-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(201,164,97,0.06);cursor:pointer;}
+.eco-item:last-child{border-bottom:none;}
+.eco-icon{width:28px;height:28px;border:1px solid rgba(201,164,97,0.2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.eco-item-name{font-family:'Source Serif 4',serif;font-size:12px;color:#C9A461;font-weight:600;}
+.eco-item-desc{font-size:10px;color:rgba(201,164,97,0.45);margin-top:2px;line-height:1.4;}
+.eco-footer{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(201,164,97,0.25);
+  letter-spacing:0.08em;margin-top:14px;padding-top:12px;border-top:1px solid rgba(201,164,97,0.08);}
+
+/* ── MAIN ──────────────────────────────────────────────── */
+main{padding-top:54px;}
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero{
+  min-height:420px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:480px 1fr 280px;
+  align-items:stretch;
+}
+.hero-bg{position:absolute;inset:0;
+  background:linear-gradient(to right,#0a0906 0%,#0a0906 35%,transparent 55%,rgba(10,9,6,0.7) 80%,#0a0906 100%);
+  z-index:1;}
+.hero-img{position:absolute;inset:0;z-index:0;}
+.hero-img img{width:100%;height:100%;object-fit:cover;filter:brightness(0.45);opacity:0.9;}
+.hero-img-fallback{width:100%;height:100%;
+  background:linear-gradient(135deg,#1a1612 0%,#0d0c09 40%,#1a1814 100%);}
+
+.hero-left{
+  position:relative;z-index:10;padding:60px 48px 60px 40px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.h-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;
+  color:var(--copper);text-transform:uppercase;margin-bottom:20px;}
+.h-title{font-family:'Source Serif 4',serif;font-size:clamp(3rem,5vw,5rem);
+  font-weight:700;line-height:0.95;color:#E8E0CC;margin-bottom:20px;letter-spacing:-0.01em;}
+.h-rule{width:40px;height:2px;background:var(--copper);margin-bottom:20px;}
+.h-tagline{font-family:'Source Serif 4',serif;font-style:italic;
+  font-size:clamp(1rem,1.5vw,1.2rem);color:rgba(232,224,204,0.75);margin-bottom:16px;line-height:1.4;}
+.h-desc{font-size:13px;color:rgba(232,224,204,0.55);line-height:1.7;max-width:380px;margin-bottom:28px;}
+.h-cta{display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  color:var(--bg);background:var(--copper);padding:11px 22px;text-decoration:none;border:none;cursor:pointer;
+  transition:background 0.2s;}
+.h-cta:hover{background:#9A5230;}
+
+.hero-mid{position:relative;z-index:10;}
+
+.hero-right{
+  position:relative;z-index:10;background:rgba(10,9,6,0.85);
+  border-left:1px solid rgba(201,164,97,0.15);padding:28px 24px;
+  display:flex;flex-direction:column;
+}
+.eco-panel-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.14em;
+  color:rgba(201,164,97,0.5);margin-bottom:20px;padding-bottom:14px;
+  border-bottom:1px solid rgba(201,164,97,0.12);}
+.eco-panel-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid rgba(201,164,97,0.07);}
+.eco-panel-item:last-of-type{border-bottom:none;}
+.epi-icon{width:26px;height:26px;border:1px solid rgba(201,164,97,0.2);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.epi-name{font-family:'Source Serif 4',serif;font-size:12px;font-weight:600;color:#C9A461;}
+.epi-desc{font-size:10px;color:rgba(201,164,97,0.4);margin-top:2px;line-height:1.4;}
+.eco-panel-foot{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(201,164,97,0.2);
+  letter-spacing:0.1em;margin-top:auto;padding-top:16px;}
+
+/* ── STATS STRIP ─────────────────────────────────────── */
+.stats-strip{
+  background:var(--stat-bg);border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(5,1fr);
+}
+.stat-item{padding:22px 24px;display:flex;align-items:center;gap:14px;
+  border-right:1px solid var(--border);}
+.stat-item:last-child{border-right:none;}
+.stat-icon{width:36px;height:36px;border:1px solid var(--border);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--copper);}
+.stat-num{font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;color:var(--text);}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;
+  color:var(--copper);text-transform:uppercase;margin-top:2px;}
+.stat-sub{font-size:10px;color:var(--text-muted);margin-top:2px;}
+
+/* ── DASHBOARD ───────────────────────────────────────── */
+.dashboard{padding:36px 40px 60px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.col-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;
+  padding-bottom:14px;border-bottom:1px solid var(--border);}
+.col-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;
+  color:var(--text);text-transform:uppercase;}
+.col-viewall{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;
+  color:var(--copper);cursor:pointer;background:none;border:none;text-decoration:none;}
+.col-cards{display:flex;flex-direction:column;gap:10px;}
+
+/* CARDS */
+.dash-card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:16px 18px;cursor:pointer;
+  transition:border-color 0.2s,background 0.2s,transform 0.15s;
+}
+.dash-card:hover{border-color:var(--copper);background:var(--card-hover);transform:translateY(-1px);}
+.dc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.dc-meta{display:flex;align-items:center;gap:8px;}
+.dc-code{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:0.06em;}
+.dc-type{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.08em;
+  padding:2px 7px;background:var(--tag-bg);color:var(--text-sec);}
+.dc-area{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--copper);
+  letter-spacing:0.06em;margin-bottom:8px;}
+.dc-title{font-family:'Source Serif 4',serif;font-size:15px;font-weight:600;
+  color:var(--text);line-height:1.3;margin-bottom:8px;}
+.dc-desc{font-size:12px;color:var(--text-sec);line-height:1.6;margin-bottom:10px;}
+.dc-footer{display:flex;align-items:center;justify-content:space-between;}
+.dc-team{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--text-muted);letter-spacing:0.04em;}
+.dc-arrow{font-size:10px;color:var(--copper);}
+
+/* STATUS BADGES */
+.sbadge{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.06em;
+  padding:2px 8px;border-radius:1px;text-transform:uppercase;flex-shrink:0;}
+.s-ongoing{background:rgba(181,103,61,0.15);color:#B5673D;border:1px solid rgba(181,103,61,0.3);}
+.s-progress{background:rgba(74,111,154,0.15);color:#5A8AB8;border:1px solid rgba(74,111,154,0.3);}
+.s-published{background:rgba(61,122,74,0.15);color:#4A9A5A;border:1px solid rgba(61,122,74,0.3);}
+.s-preprint{background:rgba(138,112,32,0.15);color:#B89040;border:1px solid rgba(138,112,32,0.3);}
+.s-submitted{background:rgba(74,111,154,0.15);color:#5A8AB8;border:1px solid rgba(74,111,154,0.3);}
+.s-protocol{background:rgba(138,112,32,0.15);color:#B89040;border:1px solid rgba(138,112,32,0.3);}
+.s-active{background:rgba(181,103,61,0.15);color:#B5673D;border:1px solid rgba(181,103,61,0.3);}
+
+/* ── PROFILE SECTION ────────────────────────────────── */
+.profile-section{padding:0 40px 60px;}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;
+  padding-bottom:14px;border-bottom:1px solid var(--border);}
+.sh-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--copper);letter-spacing:0.1em;}
+.sh-title{font-family:'Source Serif 4',serif;font-size:20px;font-weight:600;color:var(--text);}
+.sh-sub{font-size:12px;color:var(--text-sec);font-style:italic;margin-top:2px;}
+.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+.pc{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--copper);padding:20px;}
+.pc-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.12em;
+  color:var(--copper);text-transform:uppercase;margin-bottom:10px;}
+.pc-name{font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.pc-detail{font-size:11px;color:var(--text-sec);line-height:1.5;margin-bottom:12px;}
+.pc-link{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--copper);
+  text-decoration:none;letter-spacing:0.06em;border-bottom:1px solid rgba(181,103,61,0.3);padding-bottom:1px;}
+
+/* COLLAB LOGOS */
+.collab-row{background:var(--surface);border:1px solid var(--border);
+  padding:20px 32px;display:flex;align-items:center;justify-content:space-around;flex-wrap:wrap;gap:16px;}
+.collab-item{font-family:'Source Serif 4',serif;font-size:15px;font-weight:600;
+  color:var(--text-sec);letter-spacing:0.05em;text-align:center;padding:8px 20px;}
+.collab-plus{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);
+  padding:8px 12px;border:1px dashed var(--border);}
+
+/* ── EVIDENCE ARCHIVE CTA ─────────────────────────── */
+.archive-cta{
+  margin:0 40px 60px;
+  background:var(--surface2);border:1px solid var(--border);
+  display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;padding:32px 36px;
+}
+.arc-icon{width:56px;height:56px;border:1px solid var(--border);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;color:var(--copper);flex-shrink:0;}
+.arc-title{font-family:'Source Serif 4',serif;font-size:20px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.arc-desc{font-size:13px;color:var(--text-sec);line-height:1.6;max-width:560px;}
+.arc-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  color:#0a0906;background:var(--copper);padding:14px 28px;
+  text-decoration:none;white-space:nowrap;border:none;cursor:pointer;transition:background 0.2s;}
+.arc-btn:hover{background:#9A5230;}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer{padding:28px 40px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+.f-left{font-size:11px;color:var(--text-muted);}
+.f-left a{color:var(--text-muted);text-decoration:none;margin:0 6px;}
+.f-left a:hover{color:var(--copper);}
+.f-center{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-sec);
+  letter-spacing:0.1em;text-align:center;}
+.f-right{font-family:'Source Serif 4',serif;font-style:italic;font-size:12px;color:var(--copper);}
+
+/* ── MODAL ────────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(6,5,3,0.9);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;visibility:hidden;backdrop-filter:blur(6px);transition:all 0.25s;
+  cursor:pointer;
+}
+.modal-overlay.open{opacity:1;visibility:visible;}
+.modal-box{
+  background:#1A1814;border:1px solid #3a3428;max-width:680px;width:100%;
+  max-height:88vh;overflow-y:auto;position:relative;cursor:default;
+  box-shadow:0 40px 100px rgba(0,0,0,0.7);
+}
+[data-theme="light"] .modal-box{background:#FFFFFF;border-color:#E8E3D8;}
+.modal-box::-webkit-scrollbar{width:4px;}
+.modal-box::-webkit-scrollbar-thumb{background:rgba(181,103,61,0.4);border-radius:2px;}
+.modal-head{padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.06);}
+[data-theme="light"] .modal-head{border-bottom-color:#E8E3D8;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:1px solid rgba(201,164,97,0.3);
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  color:#C9A461;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.modal-code{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(201,164,97,0.5);
+  letter-spacing:0.1em;margin-bottom:6px;}
+.modal-badges{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.modal-title{font-family:'Source Serif 4',serif;font-size:clamp(1.3rem,3vw,1.8rem);
+  font-weight:700;color:var(--text);line-height:1.2;margin-bottom:10px;}
+.modal-area{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--copper);letter-spacing:0.08em;}
+.modal-body{padding:24px 32px;display:flex;flex-direction:column;gap:20px;}
+.modal-section-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;
+  color:rgba(201,164,97,0.55);text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;}
+.modal-section-label::before{content:'';width:12px;height:1px;background:rgba(201,164,97,0.3);display:block;}
+.modal-text{font-size:13.5px;color:var(--text-sec);line-height:1.75;}
+.modal-findings{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.modal-findings li{font-size:13px;color:var(--text-sec);line-height:1.5;
+  padding-left:16px;position:relative;}
+.modal-findings li::before{content:'—';position:absolute;left:0;color:var(--copper);}
+.modal-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.modal-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.06em;
+  padding:3px 10px;background:var(--tag-bg);border:1px solid var(--border);color:var(--text-sec);}
+.modal-links{display:flex;gap:14px;flex-wrap:wrap;padding:16px 32px 24px;
+  border-top:1px solid rgba(255,255,255,0.05);}
+[data-theme="light"] .modal-links{border-top-color:#E8E3D8;}
+.modal-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.08em;
+  color:var(--copper);text-decoration:none;border-bottom:1px solid rgba(181,103,61,0.4);padding-bottom:2px;}
+.modal-link-muted{color:var(--text-muted);border-color:rgba(155,142,130,0.3);}
+.modal-divider{height:1px;background:rgba(201,164,97,0.08);}
+
+/* ── RESPONSIVE ────────────────────────────────────── */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr 260px;}
+  .hero-mid{display:none;}
+  .hero-right{display:none;}
+  .stats-strip{grid-template-columns:repeat(3,1fr);}
+  .stat-item:nth-child(4),.stat-item:nth-child(5){display:none;}
+  .dashboard{grid-template-columns:1fr 1fr;}
+  .dashboard > div:nth-child(3){grid-column:1/-1;}
+  .profile-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:768px){
+  nav{padding:0 20px;}
+  .n-links{display:none;}
+  .n-ecosystem{display:none;}
+  .hamburger{display:flex;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:50px 24px 40px;}
+  .hero-right{display:none;}
+  .stats-strip{grid-template-columns:1fr 1fr;overflow:hidden;}
+  .stat-item{padding:16px 18px;}
+  .stat-item:nth-child(4),.stat-item:nth-child(5){display:flex;}
+  .stat-item:nth-child(4){border-top:1px solid var(--border);}
+  .stat-item:nth-child(5){border-top:1px solid var(--border);}
+  .dashboard{grid-template-columns:1fr;padding:24px 20px 48px;}
+  .dashboard > div:nth-child(3){grid-column:1;}
+  .profile-section{padding:0 20px 48px;}
+  .profile-grid{grid-template-columns:1fr;}
+  .archive-cta{margin:0 20px 48px;grid-template-columns:1fr;text-align:center;padding:24px;}
+  .arc-icon{margin:0 auto;}
+  footer{padding:24px 20px;flex-direction:column;text-align:center;}
+  .eco-dropdown{right:20px;left:20px;}
+  .modal-box{max-height:95vh;}
+  .modal-head,.modal-body{padding:20px;}
+  .modal-links{padding:16px 20px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────── -->
+<nav>
+  <a href="#" class="n-brand">
+    <div class="n-m">M</div>
+    <span class="n-name">METAVOXA RESEARCH</span>
+  </a>
+  <div class="n-links">
+    <a href="#overview" class="active">OVERVIEW</a>
+    <a href="#investigations">INVESTIGATIONS</a>
+    <a href="#programs">PROGRAMS</a>
+    <a href="#publications">PUBLICATIONS</a>
+    <a href="#collaborations">COLLABORATIONS</a>
+    <a href="#archive">EVIDENCE ARCHIVE</a>
+  </div>
+  <div class="n-right">
+    <button class="n-ecosystem" id="ecoBtn">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#C9A461" stroke-width="1">
+        <circle cx="6" cy="6" r="5"/><line x1="1" y1="6" x2="11" y2="6"/>
+        <ellipse cx="6" cy="6" rx="3" ry="5"/>
+      </svg>
+      PART OF THE METAVOXA ECOSYSTEM ▾
+    </button>
+    <button class="toggle-btn" id="themeBtn" title="Toggle light/dark">
+      <div class="toggle-knob"></div>
+    </button>
+    <button class="hamburger" id="menuBtn">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ECOSYSTEM DROPDOWN -->
+<div class="eco-dropdown" id="ecoDropdown">
+  <p class="eco-label">THE METAVOXA ECOSYSTEM</p>
+  <div class="eco-panel-item">
+    <div class="eco-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#C9A461" stroke-width="1.2"><circle cx="7" cy="7" r="6"/><path d="M7 4v3l2 2"/></svg></div>
+    <div><div class="epi-name">METAVOXA RESEARCH</div><div class="epi-desc">Investigative research and evidence generation</div></div>
+  </div>
+  <div class="eco-panel-item" onclick="window.open('https://labs.metavoxa.com')">
+    <div class="eco-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#C9A461" stroke-width="1.2"><rect x="2" y="2" width="10" height="10" rx="1"/><path d="M5 7h4M7 5v4"/></svg></div>
+    <div><div class="epi-name">METAVOXA LABS</div><div class="epi-desc">Methods, measurement and data science</div></div>
+  </div>
+  <div class="eco-panel-item" onclick="window.open('https://press.metavoxa.com')">
+    <div class="eco-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#C9A461" stroke-width="1.2"><path d="M2 3h10M2 7h10M2 11h6"/></svg></div>
+    <div><div class="epi-name">METAVOXA PRESS</div><div class="epi-desc">Publishing, commentary and public discourse</div></div>
+  </div>
+  <p class="eco-footer">DISTINCT FUNCTIONS · SHARED MISSION</p>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#overview">OVERVIEW</a>
+  <a href="#investigations">INVESTIGATIONS</a>
+  <a href="#programs">PROGRAMS</a>
+  <a href="#publications">PUBLICATIONS</a>
+  <a href="#collaborations">COLLABORATIONS</a>
+  <a href="#archive">EVIDENCE ARCHIVE</a>
+</div>
+
+<main>
+<!-- ── HERO ─────────────────────────────── -->
+<section class="hero" id="overview">
+  <div class="hero-img">
+    <img src="research-board.jpg" alt="Research Investigation Board"
+      onerror="this.style.display='none';document.querySelector('.hero-img-fallback').style.display='block'">
+    <div class="hero-img-fallback" style="display:none"></div>
+  </div>
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <p class="h-eyebrow">MetaVoxa Research · Evidence Layer</p>
+    <h1 class="h-title">METAVOXA<br>RESEARCH</h1>
+    <div class="h-rule"></div>
+    <p class="h-tagline">Where gaps are identified. Evidence is generated. Change is documented.</p>
+    <p class="h-desc">We investigate the distance between lived reality and institutional recognition across culture, gender, and systems — producing rigorous evidence that informs policy, practice, and public understanding.</p>
+    <a href="#investigations" class="h-cta">EXPLORE INVESTIGATIONS →</a>
+  </div>
+  <div class="hero-mid"></div>
+  <div class="hero-right">
+    <p class="eco-panel-label">THE METAVOXA ECOSYSTEM</p>
+    <div class="eco-panel-item">
+      <div class="epi-icon" style="border-color:rgba(201,164,97,0.4)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#C9A461" stroke-width="1.2"><circle cx="6" cy="6" r="5"/><path d="M6 3v3l2 2"/></svg></div>
+      <div><div class="epi-name">METAVOXA RESEARCH</div><div class="epi-desc">Investigative research and evidence generation</div></div>
+    </div>
+    <div class="eco-panel-item">
+      <div class="epi-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#C9A461" stroke-width="1.2"><rect x="1" y="1" width="10" height="10" rx="1"/><path d="M4 6h4M6 4v4"/></svg></div>
+      <div><div class="epi-name">METAVOXA LABS</div><div class="epi-desc">Methods, measurement and data science</div></div>
+    </div>
+    <div class="eco-panel-item">
+      <div class="epi-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#C9A461" stroke-width="1.2"><path d="M1 2h10M1 6h10M1 10h6"/></svg></div>
+      <div><div class="epi-name">METAVOXA PRESS</div><div class="epi-desc">Publishing, commentary and public discourse</div></div>
+    </div>
+    <p class="eco-panel-foot">DISTINCT FUNCTIONS · SHARED MISSION</p>
+  </div>
+</section>
+
+<!-- ── STATS ─────────────────────────────── -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="9" r="7"/><path d="M9 5v4l3 3"/></svg></div>
+    <div><div class="stat-num">5</div><div class="stat-label">Active Investigations</div><div class="stat-sub">Across 3 countries</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 4h12M3 8h12M3 12h8"/><rect x="1" y="2" width="16" height="14" rx="1"/></svg></div>
+    <div><div class="stat-num">3</div><div class="stat-label">Research Programs</div><div class="stat-sub">Multi-year initiatives</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2L2 6v6l7 4 7-4V6L9 2z"/></svg></div>
+    <div><div class="stat-num">7</div><div class="stat-label">Publications & Preprints</div><div class="stat-sub">Since 2024</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="4" width="14" height="12" rx="1"/><path d="M6 4V3a2 2 0 014 0v1"/></svg></div>
+    <div><div class="stat-num">2</div><div class="stat-label">Institutional Partners</div><div class="stat-sub">Charité · ACRP</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="9" r="7"/><line x1="2" y1="9" x2="16" y2="9"/><ellipse cx="9" cy="9" rx="4" ry="7"/></svg></div>
+    <div><div class="stat-num">1</div><div class="stat-label">Lancet Publication</div><div class="stat-sub">Peer-reviewed 2025</div></div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ─────────────────────────── -->
+<section class="dashboard" id="investigations">
+
+  <!-- COL 1: ACTIVE INVESTIGATIONS -->
+  <div>
+    <div class="col-header">
+      <span class="col-title">Active Investigations</span>
+      <button class="col-viewall">VIEW ALL →</button>
+    </div>
+    <div class="col-cards" id="invCards"></div>
+  </div>
+
+  <!-- COL 2: RECENT PUBLICATIONS -->
+  <div id="publications">
+    <div class="col-header">
+      <span class="col-title">Recent Publications</span>
+      <button class="col-viewall">VIEW ALL →</button>
+    </div>
+    <div class="col-cards" id="pubCards"></div>
+  </div>
+
+  <!-- COL 3: RESEARCH PROGRAMS -->
+  <div id="programs">
+    <div class="col-header">
+      <span class="col-title">Research Programs</span>
+      <button class="col-viewall">VIEW ALL →</button>
+    </div>
+    <div class="col-cards" id="progCards"></div>
+  </div>
+
+</section>
+
+<!-- ── ACADEMIC PROFILE ───────────────────── -->
+<section class="profile-section" id="collaborations">
+  <div class="section-head">
+    <span class="sh-num">ACADEMIC PROFILE</span>
+    <div>
+      <h2 class="sh-title">Credentials & Affiliations</h2>
+      <p class="sh-sub">The institutional anchors behind the research.</p>
+    </div>
+  </div>
+  <div class="profile-grid">
+    <div class="pc">
+      <p class="pc-lbl">Researcher ID</p>
+      <p class="pc-name">ORCID</p>
+      <p class="pc-detail">Persistent digital identifier linking all published outputs across platforms and institutions.</p>
+      <a href="https://orcid.org/0000-0003-4152-3863" class="pc-link" target="_blank">0000-0003-4152-3863 →</a>
+    </div>
+    <div class="pc">
+      <p class="pc-lbl">Academic Affiliation</p>
+      <p class="pc-name">Charité Berlin</p>
+      <p class="pc-detail">Final-year MD candidate. Dr. med. research program active. MLI feasibility protocol collaboration.</p>
+      <a href="https://www.charite.de" class="pc-link" target="_blank">Charité Universitätsmedizin →</a>
+    </div>
+    <div class="pc">
+      <p class="pc-lbl">Certification</p>
+      <p class="pc-name">ICH-GCP Certified</p>
+      <p class="pc-detail">International Council for Harmonisation — Good Clinical Practice. Clinical trial operations, Vivantes Hospital Berlin.</p>
+      <a href="#" class="pc-link">View Certification →</a>
+    </div>
+    <div class="pc">
+      <p class="pc-lbl">Open Source</p>
+      <p class="pc-name">GitHub</p>
+      <p class="pc-detail">Technical research projects, MetaVoxa infrastructure repositories, and clinical data analysis code.</p>
+      <a href="https://github.com/Martha-Wuya-Koroma" class="pc-link" target="_blank">Martha-Wuya-Koroma →</a>
+    </div>
+  </div>
+  <div class="section-head" style="margin-top:28px;">
+    <span class="sh-num">COLLABORATIONS & INSTITUTIONAL LINKS</span>
+  </div>
+  <div class="collab-row">
+    <div class="collab-item">CHARITÉ</div>
+    <div class="collab-item">ORCID</div>
+    <div class="collab-item">ResearchGate</div>
+    <div class="collab-item">Zenodo</div>
+    <div class="collab-plus">+ MORE PARTNERS</div>
+  </div>
+</section>
+
+<!-- ── EVIDENCE ARCHIVE CTA ───────────────── -->
+<div class="archive-cta" id="archive">
+  <div class="arc-icon">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#B5673D" stroke-width="1.3">
+      <rect x="3" y="6" width="22" height="18" rx="1"/>
+      <path d="M3 11h22M8 6V4M20 6V4"/>
+      <rect x="8" y="15" width="5" height="5" rx="0.5"/>
+    </svg>
+  </div>
+  <div>
+    <h3 class="arc-title">Evidence Archive</h3>
+    <p class="arc-desc">Access curated frameworks, datasets, instruments, field notes, and emerging findings that underpin our investigations. Built for transparency. Designed for impact.</p>
+  </div>
+  <a href="#" class="arc-btn">ENTER ARCHIVE →</a>
+</div>
+
+</main>
+
+<footer>
+  <p class="f-left">
+    MetaVoxa Research is an independent research entity within the MetaVoxa ecosystem.
+    Distinct from MetaVoxa Labs and MetaVoxa Press. &nbsp;·&nbsp;
+    <a href="#">Contact</a> <a href="#">Privacy</a> <a href="#">Imprint</a>
+  </p>
+  <div class="f-center">
+    METAVOXA RESEARCH<br>
+    © 2024 All rights reserved.
+  </div>
+  <p class="f-right">Evidence is what the system accepts.<br>Observation is where it begins.</p>
+</footer>
+
+<!-- ── MODAL ─────────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<script>
+  <!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
+<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
+  <div class="case-grid"></div>
+  <div class="world-outline"></div>
+
+  <div class="case-line l1"></div>
+  <div class="case-line l2"></div>
+  <div class="case-line l3"></div>
+  <div class="case-line l4"></div>
+
+  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
+  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
+  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
+  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
+  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
+
+  <div class="social-residue r1">DUTY</div>
+  <div class="social-residue r2">SHAME</div>
+  <div class="social-residue r3">RESPECTABILITY</div>
+  <div class="social-residue r4">OBEDIENCE</div>
+  <div class="social-residue r5">SILENCE</div>
+  <div class="social-residue r6">LEGIBILITY</div>
+
+  <div class="cultural-fragment f1">“be strong”</div>
+  <div class="cultural-fragment f2">“pray about it”</div>
+  <div class="cultural-fragment f3">“what will people say?”</div>
+  <div class="cultural-fragment f4">“family first”</div>
+
+  <div class="human-silhouette s1"></div>
+  <div class="human-silhouette s2"></div>
+  <div class="human-silhouette s3"></div>
+  <div class="human-silhouette s4"></div>
+
+  <div class="intro-core">
+    <p class="intro-kicker">The world is the case scene</p>
+    <h1 class="intro-title">MetaVoxa<br>Research</h1>
+    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
+    <div class="case-stamp">GAP CONFIRMED</div>
+  </div>
+
+  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
+</section>
+// ── DATA ──────────────────────────────────────────────────
+const INVESTIGATIONS=[
+  {id:"R1.2",code:"INV-001",type:"INVESTIGATION",statusClass:"s-ongoing",statusLabel:"ONGOING",
+   area:"NEURODIVERGENCE · DIAGNOSIS",
+   title:"Diagnostic Delay in Neurodivergent Women",
+   desc:"Examines structural and clinical factors contributing to delayed recognition.",
+   team:"Lead · MWK",
+   abstract:"A systematic investigation into why neurodivergent women receive diagnoses an average of 12–16 years later than neurodivergent men. Examines the intersection of cultural compliance training, diagnostic instrument bias, and clinical presentation expectations. Mixed-methods: qualitative interviews with West African neurodivergent women + systematic review of existing diagnostic instruments.",
+   findings:["Diagnostic instruments validated on predominantly white male populations produce systematic underdetection in women of colour","Cultural compliance training produces presentation patterns that score below clinical threshold on standard assessments","The gap between symptom onset and formal diagnosis averages 14+ years in the target population"],
+   related:["Masking Load Index (MLI)","The Physiology of the Mask (Press)","Strategic Questions Registry Entry 01 & 09"],
+   links:[]},
+  {id:"R1.3",code:"INV-002",type:"INVESTIGATION",statusClass:"s-progress",statusLabel:"IN PROGRESS",
+   area:"SYSTEMS · CULTURE",
+   title:"Cultural Non-Recognition Mechanisms",
+   desc:"Investigates how cultural biases shape what is seen, heard, and documented.",
+   team:"Lead · MWK",
+   abstract:"Documents the specific cultural and religious mechanisms that prevent West African immigrant women from recognising or seeking support for neurodivergent traits. Builds the qualitative infrastructure for the Dr. med. thesis at Charité.",
+   findings:["Religious frameworks interpret cognitive difference as spiritual test or divine design, not neurological architecture","Family gatekeeping actively suppresses diagnostic pathways before clinical contact","Cultural vocabulary for neurodivergent experience exists but has no crosswalk to clinical terminology"],
+   related:["Dr. med. Research Program","Strategic Questions Registry Entry 01 & 15"],
+   links:[]},
+  {id:"R1.4",code:"INV-003",type:"INVESTIGATION",statusClass:"s-ongoing",statusLabel:"ONGOING",
+   area:"NEURODIVERGENCE · MEASUREMENT",
+   title:"Masking Load as a Measurable Burden",
+   desc:"Developing metrics to quantify masking load trajectories across diverse contexts.",
+   team:"Lead · MWK",
+   abstract:"Developing the psychometric and biometric foundation for the Masking Load Index (MLI). Investigates whether passive digital monitoring — phone usage patterns, sleep architecture, keystroke dynamics — can produce data reliable enough to make masking cost measurable in populations the clinical room cannot currently see.",
+   findings:["Passive digital signals correlate significantly with subjective masking effort profiles in pilot data","Clinical encounter data systematically underestimates masking cost in composed presenters","The MLI framework shows promise as a complement to existing ADHD assessment instruments"],
+   related:["Digital Biomarker Patent (Labs)","MLI Feasibility Protocol","Strategic Questions Registry Entry 02 & 03"],
+   links:[{label:"Patent: Aktenzeichen 20 2026 002 446.1",url:"#"}]},
+  {id:"R1.4b",code:"INV-004",type:"INVESTIGATION",statusClass:"s-progress",statusLabel:"IN PROGRESS",
+   area:"MEDICINE · SYSTEMS",
+   title:"Migration as a Diagnostic Variable",
+   desc:"Explores how migration trajectories influence diagnostic pathways across health systems.",
+   team:"Lead · MWK",
+   abstract:"Migration is rarely treated as a diagnostic variable in psychiatric assessment, yet the experience of navigating between health systems with different cultural assumptions, clinical languages, and institutional frameworks materially alters what gets diagnosed and when. This investigation tracks how migration between ages 15–25 changes diagnostic trajectories for neurodivergent women.",
+   findings:["Migration itself operates as an undocumented diagnostic variable, altering timing and accuracy of recognition","Different clinical systems in Lagos, Berlin, and London produce systematically different assessments of the same patient","Country of training for the diagnosing clinician predicts diagnostic outcome more than symptom severity"],
+   related:["Strategic Questions Registry Entry 20","Dr. med. Research Program"],
+   links:[]},
+  {id:"R1.6",code:"INV-005",type:"INVESTIGATION",statusClass:"s-ongoing",statusLabel:"ONGOING",
+   area:"MEDICINE · SELFHOOD",
+   title:"Functional Pain & Clinical Misreading",
+   desc:"Examines mechanisms of misattribution in pain and somatic conditions.",
+   team:"Lead · MWK",
+   abstract:"Investigates how pain that does not conform to expected clinical presentation is systematically misread, misattributed, or dismissed. Focuses on the intersection of cultural compliance training (producing composed clinical presentation), neurodivergent pain processing differences, and clinical instruments calibrated to majority-population pain expression.",
+   findings:["Patients trained not to express distress vocally receive lower pain scores regardless of physiological evidence","Functional pain diagnoses are disproportionately assigned to women and patients from cultures with high-tolerance socialisation","Clinical bias in pain assessment compounds with diagnostic invisibility in neurodivergent populations"],
+   related:["Functional Pain Framework (Labs)","Strategic Questions Registry Entry 05"],
+   links:[]},
+];
+
+const PUBLICATIONS=[
+  {id:"2024",code:"PUB-001",type:"PEER-REVIEWED",statusClass:"s-published",statusLabel:"PEER-REVIEWED",
+   area:"NEURODIVERGENCE · CLINICAL RESEARCH",
+   title:"The Lancet Psychiatry Collaboration",
+   desc:"Co-authored research. The Lancet Psychiatry, 2025.",
+   team:"MWK et al.",
+   abstract:"Co-authored research published in The Lancet Psychiatry. Peer-reviewed and institutionally validated. Evidence that the work can survive the validation process it is simultaneously questioning — and that these two things are not contradictions. Full citation available via ORCID.",
+   findings:["Peer-reviewed publication in a tier-1 psychiatric journal","Establishes institutional credibility for MetaVoxa's research program","Demonstrates crossover between lived-experience research and formal evidence standards"],
+   related:["ORCID: 0000-0003-4152-3863","Strategic Questions Registry Entry 06"],
+   links:[{label:"VIEW ON ORCID →",url:"https://orcid.org/0000-0003-4152-3863"},{label:"THE LANCET PSYCHIATRY →",url:"https://www.thelancet.com/journals/lanpsy",muted:true}]},
+  {id:"2024b",code:"PUB-002",type:"PREPRINT",statusClass:"s-preprint",statusLabel:"PREPRINT",
+   area:"NEURODIVERGENCE · DATA GOVERNANCE",
+   title:"ADHD Digital Biomarker — Feasibility Protocol",
+   desc:"Zenodo, 2026. Foundation for the Digital Biomarker patent framework.",
+   team:"MWK",
+   abstract:"Can passive digital monitoring produce data reliable enough to make the masking load of adult ADHD measurable in a population the clinical room cannot currently see? This feasibility protocol lays the methodological groundwork for the Digital Biomarker patent framework, filed with Charité collaboration.",
+   findings:["Phone usage patterns, sleep architecture, and keystroke dynamics show statistically significant correlation with self-reported masking effort","Clinical encounter data produces systematically less accurate masking cost estimates than passive monitoring in composed presenters","The biomarker approach is viable for a population that actively suppresses the signals clinical rooms are designed to detect"],
+   related:["Digital Biomarker Patent (Labs)","MLI Investigation","Strategic Questions Registry Entry 02"],
+   links:[{label:"VIEW ON ZENODO →",url:"https://zenodo.org"},{label:"RELATED ESSAY →",url:"https://substack.com/@metavoxapress",muted:true}]},
+  {id:"2023a",code:"PUB-003",type:"PEER-REVIEWED",statusClass:"s-published",statusLabel:"PEER-REVIEWED",
+   area:"CLINICAL TRIALS · ONCOLOGY",
+   title:"KEYNOTE-991 Protocol Review",
+   desc:"Zenodo, 2025. Clinical trial protocol analysis.",
+   team:"MWK",
+   abstract:"Systematic analysis of the KEYNOTE-991 clinical trial protocol. Published as an open-access preprint on Zenodo. Demonstrates clinical research operations competency and institutional fluency across trial phases.",
+   findings:["Protocol demonstrates viable patient stratification approach for immunotherapy trials","Safety monitoring framework provides useful template for adaptive trial design","Data collection instruments show opportunities for patient-reported outcome enhancement"],
+   related:["ACRP 2027 Submission","CRA Portfolio","ICH-GCP Certification"],
+   links:[{label:"VIEW ON ZENODO →",url:"https://zenodo.org"}]},
+  {id:"2023b",code:"PUB-004",type:"PREPRINT",statusClass:"s-preprint",statusLabel:"PREPRINT",
+   area:"CLINICAL RESEARCH · MEDICINE",
+   title:"Aduhelm Efficacy Analysis",
+   desc:"Zenodo, 2025. Critical analysis of Aduhelm approval evidence.",
+   team:"MWK",
+   abstract:"Critical analysis of the evidence base behind the FDA approval of Aduhelm (aducanumab) for Alzheimer's disease. Examines the gap between statistical significance and clinical meaningfulness in regulatory decision-making. An early example of MetaVoxa's institutional legibility work — making complex clinical evidence accessible without distorting what it means.",
+   findings:["Accelerated approval pathway created gap between surrogate endpoint data and clinical benefit evidence","Post-marketing confirmation trial design raises questions about validation timeline adequacy","Patient advocacy groups and clinical experts diverged significantly on benefit-risk interpretation"],
+   related:["Institutional Legibility Framework","Strategic Questions Registry Entry 06"],
+   links:[{label:"VIEW ON ZENODO →",url:"https://zenodo.org"}]},
+];
+
+const PROGRAMS=[
+  {id:"PROG-001",code:"PROG-001",type:"DOCTORAL RESEARCH",statusClass:"s-protocol",statusLabel:"PROTOCOL STAGE",
+   area:"NEURODIVERGENCE · QUALITATIVE",
+   title:"Dr. med. Research Program",
+   desc:"Charité Berlin. Investigating cultural non-recognition in West African neurodivergent women.",
+   team:"MWK · Charité",
+   abstract:"The formal doctoral research anchor of MetaVoxa's qualitative program. Investigates the intersection of medical, cultural, and sociological factors that sustain non-recognition of neurodivergent traits in West African born-and-raised women who migrated to Europe between ages 15–25. Ethics protocol submitted. Interview framework designed.",
+   findings:["Research question: What mechanisms prevent clinical systems from seeing what cultural conditioning has taught patients to hide?","Qualitative interview framework designed for 15+ participants","Ethics protocol submitted to Charité IRB"],
+   related:["Cultural Non-Recognition Investigation","Strategic Questions Registry Entry 01","Diagnostic Invisibility (Lexicon)"],
+   links:[{label:"CHARITÉ AFFILIATION →",url:"https://www.charite.de",muted:true}]},
+  {id:"PROG-002",code:"PROG-002",type:"INSTITUTIONAL COLLABORATION",statusClass:"s-active",statusLabel:"ACTIVE",
+   area:"NEURODIVERGENCE · MEASUREMENT",
+   title:"Charité Collaboration",
+   desc:"Joint academic work advancing evidence in complex recognition gaps.",
+   team:"MWK · Charité Research",
+   abstract:"Institutional collaboration with Charité Universitätsmedizin Berlin for the Masking Load Index feasibility assessment and Dr. med. research program. The collaboration bridges clinical infrastructure access (patient populations, IRB processes, clinical expertise) with MetaVoxa's framework development work.",
+   findings:["Provides institutional anchoring for MetaVoxa's clinical research program","Enables patient population access for qualitative research","Creates pathway for MLI instrument validation within a recognized clinical research environment"],
+   related:["Dr. med. Research Program","MLI Investigation","ORCID: 0000-0003-4152-3863"],
+   links:[{label:"CHARITÉ →",url:"https://www.charite.de"}]},
+  {id:"PROG-003",code:"PROG-003",type:"CONFERENCE SUBMISSIONS",statusClass:"s-submitted",statusLabel:"SUBMITTED",
+   area:"CLINICAL RESEARCH · TRANSLATION",
+   title:"ACRP 2027 Submissions",
+   desc:"Two proposals submitted to the Association of Clinical Research Professionals.",
+   team:"MWK",
+   abstract:"Two abstracts submitted to ACRP 2027: (1) KEYNOTE-991 protocol analysis for the clinical research operations track, and (2) ADHD digital biomarker feasibility for the emerging technologies track. Represents MetaVoxa's translation work — carrying institutional research into the clinical research professional community.",
+   findings:["KEYNOTE-991 submission targets clinical trial operations audience","ADHD biomarker submission targets emerging digital health technologies track","Both submissions demonstrate crossover between lived-experience research and clinical research methodology"],
+   related:["KEYNOTE-991 Protocol Review","ADHD Biomarker Feasibility","ICH-GCP Certification"],
+   links:[]},
+];
+
+// ── RENDER CARDS ──────────────────────────────────────────
+function makeCard(item){
+  return `
+    <div class="dash-card" data-id="${item.code}" onclick="openModal('${item.code}')">
+      <div class="dc-top">
+        <div class="dc-meta">
+          <span class="dc-code">${item.code}</span>
+          <span class="dc-type">${item.type}</span>
+        </div>
+        <span class="sbadge ${item.statusClass}">${item.statusLabel}</span>
+      </div>
+      <p class="dc-area">${item.area}</p>
+      <h3 class="dc-title">${item.title}</h3>
+      <p class="dc-desc">${item.desc}</p>
+      <div class="dc-footer">
+        <span class="dc-team">${item.team}</span>
+        <span class="dc-arrow">→</span>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('invCards').innerHTML=INVESTIGATIONS.map(makeCard).join('');
+document.getElementById('pubCards').innerHTML=PUBLICATIONS.map(makeCard).join('');
+document.getElementById('progCards').innerHTML=PROGRAMS.map(makeCard).join('');
+
+// ── MODAL ─────────────────────────────────────────────────
+const ALL=[...INVESTIGATIONS,...PUBLICATIONS,...PROGRAMS];
+
+function openModal(code){
+  const item=ALL.find(x=>x.code===code);
+  if(!item)return;
+  document.getElementById('modalBox').innerHTML=`
+    <div class="modal-head">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="modal-code">${item.code} · ${item.type}</div>
+      <div class="modal-badges">
+        <span class="sbadge ${item.statusClass}">${item.statusLabel}</span>
+      </div>
+      <h2 class="modal-title">${item.title}</h2>
+      <p class="modal-area">${item.area}</p>
+    </div>
+    <div class="modal-body">
+      <div>
+        <p class="modal-section-label">ABSTRACT</p>
+        <p class="modal-text">${item.abstract}</p>
+      </div>
+      <div>
+        <p class="modal-section-label">KEY FINDINGS</p>
+        <ul class="modal-findings">${item.findings.map(f=>`<li>${f}</li>`).join('')}</ul>
+      </div>
+      ${item.related&&item.related.length?`
+      <div>
+        <p class="modal-section-label">RELATED WORK</p>
+        <div class="modal-tags">${item.related.map(r=>`<span class="modal-tag">${r}</span>`).join('')}</div>
+      </div>`:''}
+    </div>
+    ${item.links&&item.links.length?`
+    <div class="modal-links">
+      ${item.links.map(l=>`<a href="${l.url}" class="modal-link${l.muted?' modal-link-muted':''}" target="_blank">${l.label}</a>`).join('')}
+    </div>`:''}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.getElementById('modalOverlay').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ── THEME TOGGLE ──────────────────────────────────────────
+// ── THEME TOGGLE ──────────────────────────────────────────
+const savedResearchTheme = localStorage.getItem('mv-research-theme');
+
+if(savedResearchTheme){
+  document.documentElement.dataset.theme = savedResearchTheme;
+}
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('mv-research-theme', html.dataset.theme);
+});
+
+// ── ECOSYSTEM DROPDOWN ────────────────────────────────────
+document.getElementById('ecoBtn').addEventListener('click',e=>{
+  e.stopPropagation();
+  document.getElementById('ecoDropdown').classList.toggle('open');
+});
+document.addEventListener('click',()=>document.getElementById('ecoDropdown').classList.remove('open'));
+
+// ── MOBILE NAV ────────────────────────────────────────────
+document.getElementById('menuBtn').addEventListener('click',()=>{
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+document.querySelectorAll('.mobile-nav a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('mobileNav').classList.remove('open'));
+});
+
+// ── ACTIVE NAV ON SCROLL ──────────────────────────────────
+const sections=['overview','investigations','programs','publications','collaborations','archive'];
+const navLinks=document.querySelectorAll('.n-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&window.scrollY>=el.offsetTop-100)current=id;
+  });
+  navLinks.forEach(a=>{
+    a.classList.remove('active');
+    if(a.getAttribute('href')==='#'+current)a.classList.add('active');
+  });
+},{passive:true});
+</script>
+<body class="intro-lock">
+  <!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
+<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
+  <div class="case-grid"></div>
+  <div class="world-outline"></div>
+
+  <div class="case-line l1"></div>
+  <div class="case-line l2"></div>
+  <div class="case-line l3"></div>
+  <div class="case-line l4"></div>
+
+  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
+  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
+  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
+  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
+  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
+
+  <div class="social-residue r1">DUTY</div>
+  <div class="social-residue r2">SHAME</div>
+  <div class="social-residue r3">RESPECTABILITY</div>
+  <div class="social-residue r4">OBEDIENCE</div>
+  <div class="social-residue r5">SILENCE</div>
+  <div class="social-residue r6">LEGIBILITY</div>
+
+  <div class="cultural-fragment f1">“be strong”</div>
+  <div class="cultural-fragment f2">“pray about it”</div>
+  <div class="cultural-fragment f3">“what will people say?”</div>
+  <div class="cultural-fragment f4">“family first”</div>
+
+  <div class="human-silhouette s1"></div>
+  <div class="human-silhouette s2"></div>
+  <div class="human-silhouette s3"></div>
+  <div class="human-silhouette s4"></div>
+
+  <div class="intro-core">
+    <p class="intro-kicker">The world is the case scene</p>
+    <h1 class="intro-title">MetaVoxa<br>Research</h1>
+    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
+    <div class="case-stamp">GAP CONFIRMED</div>
+  </div>
+
+  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
+</section>
+</html>
