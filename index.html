@@ -228,7 +228,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
   text-align:center;
   max-width:780px;
   padding:0 24px;
-  animation:introCoreFade 6.1s ease forwards;
+  opacity:0;
+  transform:translateY(14px) scale(.98);
+  animation:introCoreEnter 1.2s ease forwards;
 }
 
 .intro-kicker{
@@ -334,11 +336,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
   100%{opacity:0;transform:translateY(-18px) scale(1.05);filter:blur(3px);}
 }
 
-@keyframes introCoreFade{
-  0%{opacity:0;transform:translateY(14px) scale(.98);}
-  14%{opacity:1;transform:translateY(0) scale(1);}
-  72%{opacity:1;}
-  100%{opacity:0;transform:translateY(-12px) scale(1.01);filter:blur(4px);}
+@keyframes introCoreEnter{
+  from{opacity:0;transform:translateY(14px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
 }
 
 @media(max-width:768px){
@@ -680,7 +680,51 @@ footer{padding:28px 40px;border-top:1px solid var(--border);
 }
 </style>
 </head>
-<body>
+<body class="intro-lock">
+
+<!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
+<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
+  <div class="case-grid"></div>
+  <div class="world-outline"></div>
+
+  <div class="case-line l1"></div>
+  <div class="case-line l2"></div>
+  <div class="case-line l3"></div>
+  <div class="case-line l4"></div>
+
+  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
+  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
+  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
+  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
+  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
+
+  <div class="social-residue r1">DUTY</div>
+  <div class="social-residue r2">SHAME</div>
+  <div class="social-residue r3">RESPECTABILITY</div>
+  <div class="social-residue r4">OBEDIENCE</div>
+  <div class="social-residue r5">SILENCE</div>
+  <div class="social-residue r6">LEGIBILITY</div>
+
+  <div class="cultural-fragment f1">“be strong”</div>
+  <div class="cultural-fragment f2">“pray about it”</div>
+  <div class="cultural-fragment f3">“what will people say?”</div>
+  <div class="cultural-fragment f4">“family first”</div>
+
+  <div class="human-silhouette s1"></div>
+  <div class="human-silhouette s2"></div>
+  <div class="human-silhouette s3"></div>
+  <div class="human-silhouette s4"></div>
+
+  <div class="intro-core">
+    <p class="intro-kicker">The world is the case scene</p>
+    <h1 class="intro-title">MetaVoxa<br>Research</h1>
+    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
+    <div class="case-stamp">GAP CONFIRMED</div>
+  </div>
+
+  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
+</section>
+
 
 <!-- ── NAV ─────────────────────────────── -->
 <nav>
@@ -917,48 +961,46 @@ footer{padding:28px 40px;border-top:1px solid var(--border);
 </div>
 
 <script>
-  <!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
-<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
-  <div class="case-grid"></div>
-  <div class="world-outline"></div>
+// ── FULL INTRO ────────────────────────────────────────────
+const researchIntro = document.getElementById('researchIntro');
+const skipResearchIntro = document.getElementById('skipResearchIntro');
 
-  <div class="case-line l1"></div>
-  <div class="case-line l2"></div>
-  <div class="case-line l3"></div>
-  <div class="case-line l4"></div>
+function revealResearchSite(){
+  if(!researchIntro) return;
 
-  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
-  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
-  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
-  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
-  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
+  researchIntro.classList.add('hide');
+  document.body.classList.remove('intro-lock');
 
-  <div class="social-residue r1">DUTY</div>
-  <div class="social-residue r2">SHAME</div>
-  <div class="social-residue r3">RESPECTABILITY</div>
-  <div class="social-residue r4">OBEDIENCE</div>
-  <div class="social-residue r5">SILENCE</div>
-  <div class="social-residue r6">LEGIBILITY</div>
+  setTimeout(() => {
+    researchIntro.style.display = 'none';
+  }, 1200);
 
-  <div class="cultural-fragment f1">“be strong”</div>
-  <div class="cultural-fragment f2">“pray about it”</div>
-  <div class="cultural-fragment f3">“what will people say?”</div>
-  <div class="cultural-fragment f4">“family first”</div>
+  sessionStorage.setItem('metavoxaResearchIntroSeen','true');
+}
 
-  <div class="human-silhouette s1"></div>
-  <div class="human-silhouette s2"></div>
-  <div class="human-silhouette s3"></div>
-  <div class="human-silhouette s4"></div>
+function runResearchIntro(){
+  if(!researchIntro){
+    document.body.classList.remove('intro-lock');
+    return;
+  }
 
-  <div class="intro-core">
-    <p class="intro-kicker">The world is the case scene</p>
-    <h1 class="intro-title">MetaVoxa<br>Research</h1>
-    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
-    <div class="case-stamp">GAP CONFIRMED</div>
-  </div>
+  const alreadySeen = sessionStorage.getItem('metavoxaResearchIntroSeen') === 'true';
 
-  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
-</section>
+  if(alreadySeen){
+    researchIntro.style.display = 'none';
+    document.body.classList.remove('intro-lock');
+    return;
+  }
+
+  setTimeout(revealResearchSite, 7200);
+}
+
+if(skipResearchIntro){
+  skipResearchIntro.addEventListener('click', revealResearchSite);
+}
+
+window.addEventListener('load', runResearchIntro);
+
 // ── DATA ──────────────────────────────────────────────────
 const INVESTIGATIONS=[
   {id:"R1.2",code:"INV-001",type:"INVESTIGATION",statusClass:"s-ongoing",statusLabel:"ONGOING",
@@ -1196,48 +1238,7 @@ window.addEventListener('scroll',()=>{
     if(a.getAttribute('href')==='#'+current)a.classList.add('active');
   });
 },{passive:true});
+
 </script>
-<body class="intro-lock">
-  <!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
-<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
-  <div class="case-grid"></div>
-  <div class="world-outline"></div>
-
-  <div class="case-line l1"></div>
-  <div class="case-line l2"></div>
-  <div class="case-line l3"></div>
-  <div class="case-line l4"></div>
-
-  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
-  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
-  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
-  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
-  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
-
-  <div class="social-residue r1">DUTY</div>
-  <div class="social-residue r2">SHAME</div>
-  <div class="social-residue r3">RESPECTABILITY</div>
-  <div class="social-residue r4">OBEDIENCE</div>
-  <div class="social-residue r5">SILENCE</div>
-  <div class="social-residue r6">LEGIBILITY</div>
-
-  <div class="cultural-fragment f1">“be strong”</div>
-  <div class="cultural-fragment f2">“pray about it”</div>
-  <div class="cultural-fragment f3">“what will people say?”</div>
-  <div class="cultural-fragment f4">“family first”</div>
-
-  <div class="human-silhouette s1"></div>
-  <div class="human-silhouette s2"></div>
-  <div class="human-silhouette s3"></div>
-  <div class="human-silhouette s4"></div>
-
-  <div class="intro-core">
-    <p class="intro-kicker">The world is the case scene</p>
-    <h1 class="intro-title">MetaVoxa<br>Research</h1>
-    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
-    <div class="case-stamp">GAP CONFIRMED</div>
-  </div>
-
-  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
-</section>
+</body>
 </html>
