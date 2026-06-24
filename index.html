@@ -52,324 +52,461 @@
 html{scroll-behavior:smooth;}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background 0.3s,color 0.3s;}
 
-  body.intro-lock{
+body.intro-lock{
   overflow:hidden;
 }
 
-/* ── RESEARCH INTRO: WORLD AS CASE SCENE ───────────────── */
-.research-intro{
+/* ── RESEARCH INTRO: FORENSIC SPOTLIGHT SEQUENCE ───────── */
+.research-sequence{
   position:fixed;
   inset:0;
   z-index:5000;
-  background:
-    radial-gradient(circle at 50% 42%, rgba(181,103,61,0.12), transparent 32%),
-    radial-gradient(circle at 20% 18%, rgba(201,164,97,0.08), transparent 24%),
-    radial-gradient(circle at 80% 78%, rgba(201,164,97,0.06), transparent 28%),
-    #050403;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:#020201;
   overflow:hidden;
-  transition:opacity 1.2s ease, visibility 1.2s ease;
+  transition:opacity 1.25s ease, visibility 1.25s ease;
 }
 
-.research-intro.hide{
+.research-sequence.hide{
   opacity:0;
   visibility:hidden;
   pointer-events:none;
 }
 
-.case-grid{
+.sequence-slide,
+.sequence-final{
   position:absolute;
   inset:0;
-  opacity:0.16;
-  background-image:
-    linear-gradient(rgba(201,164,97,0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,164,97,0.12) 1px, transparent 1px);
-  background-size:54px 54px;
-  mask-image:radial-gradient(circle at center, black 0%, transparent 78%);
-}
-
-.world-outline{
-  position:absolute;
-  width:min(76vw,980px);
-  height:min(48vw,560px);
-  border:1px solid rgba(201,164,97,0.16);
-  border-radius:48% 52% 46% 54%;
   opacity:0;
-  animation:worldReveal 5.6s ease forwards;
+  visibility:hidden;
+  transition:opacity 1s ease, visibility 1s ease;
 }
 
-.world-outline::before,
-.world-outline::after{
+.sequence-slide.active,
+.sequence-final.active{
+  opacity:1;
+  visibility:visible;
+}
+
+.sequence-slide{
+  background-image:var(--bg-img);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+/* the full scene stays present but almost swallowed by darkness */
+.sequence-slide::before{
   content:"";
   position:absolute;
-  border:1px solid rgba(201,164,97,0.22);
+  inset:0;
+  background-image:var(--bg-img);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  filter:brightness(.10) contrast(1.18) saturate(.82);
+  transform:scale(1.02);
+}
+
+.sequence-slide::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,.25) 48%, rgba(0,0,0,.82) 72%, rgba(0,0,0,.96) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,.3), rgba(0,0,0,.72));
+  pointer-events:none;
+}
+
+.sequence-lit{
+  position:absolute;
+  inset:0;
+  background-image:var(--bg-img);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  filter:brightness(1.05) contrast(1.12) saturate(.95);
+  clip-path:circle(0px at 50% 50%);
+  z-index:2;
+}
+
+.sequence-slide.active .sequence-lit{
+  animation-duration:7.4s;
+  animation-timing-function:ease-in-out;
+  animation-fill-mode:forwards;
+}
+
+.frame-1.active .sequence-lit{animation-name:scanFrameOne;}
+.frame-2.active .sequence-lit{animation-name:scanFrameTwo;}
+.frame-3.active .sequence-lit{animation-name:scanFrameThree;}
+.frame-4.active .sequence-lit{animation-name:scanFrameFour;}
+
+.sequence-lens{
+  position:absolute;
+  width:230px;
+  height:230px;
   border-radius:50%;
-}
-
-.world-outline::before{
-  width:38%;
-  height:46%;
-  left:10%;
-  top:25%;
-  transform:rotate(-18deg);
-}
-
-.world-outline::after{
-  width:46%;
-  height:36%;
-  right:8%;
-  top:28%;
-  transform:rotate(14deg);
-}
-
-.case-line{
-  position:absolute;
-  height:1px;
-  background:linear-gradient(90deg, transparent, rgba(181,103,61,0.65), transparent);
-  transform-origin:left center;
+  z-index:3;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(201,164,97,.38);
+  box-shadow:
+    0 0 34px rgba(201,164,97,.18),
+    inset 0 0 38px rgba(255,235,188,.12),
+    0 0 0 9999px rgba(0,0,0,.42);
   opacity:0;
-  animation:lineTrace 5.4s ease forwards;
+  pointer-events:none;
 }
 
-.l1{width:330px;top:39%;left:31%;transform:rotate(18deg);animation-delay:.6s;}
-.l2{width:260px;top:52%;left:44%;transform:rotate(-24deg);animation-delay:.9s;}
-.l3{width:300px;top:61%;left:29%;transform:rotate(-8deg);animation-delay:1.1s;}
-.l4{width:240px;top:34%;left:52%;transform:rotate(34deg);animation-delay:1.3s;}
+.sequence-slide.active .sequence-lens{
+  animation-duration:7.4s;
+  animation-timing-function:ease-in-out;
+  animation-fill-mode:forwards;
+}
 
-.evidence-marker{
+.frame-1.active .sequence-lens{animation-name:lensFrameOne;}
+.frame-2.active .sequence-lens{animation-name:lensFrameTwo;}
+.frame-3.active .sequence-lens{animation-name:lensFrameThree;}
+.frame-4.active .sequence-lens{animation-name:lensFrameFour;}
+
+.sequence-noise{
   position:absolute;
+  inset:0;
   z-index:4;
+  pointer-events:none;
+  opacity:.16;
+  background-image:
+    linear-gradient(rgba(201,164,97,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,97,.05) 1px, transparent 1px);
+  background-size:52px 52px;
+  mix-blend-mode:screen;
+}
+
+.sequence-label{
+  position:absolute;
+  top:34px;
+  left:44px;
+  z-index:8;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  column-gap:16px;
+  align-items:start;
+  color:#E8E0CC;
+  opacity:0;
+  transform:translateY(10px);
+}
+
+.sequence-slide.active .sequence-label{
+  animation:labelIn 1.1s ease .25s forwards;
+}
+
+.sequence-num{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(2.4rem,4vw,3.4rem);
+  line-height:.9;
+  color:#C9A461;
+}
+
+.sequence-title{
+  font-family:'Source Serif 4',serif;
+  font-size:clamp(1.1rem,2vw,1.7rem);
+  line-height:1.15;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#E8E0CC;
+  text-shadow:0 2px 18px rgba(0,0,0,.85);
+}
+
+.sequence-sub{
+  grid-column:2;
+  margin-top:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(232,224,204,.68);
+}
+
+.sequence-status{
+  position:absolute;
+  left:44px;
+  bottom:28px;
+  z-index:8;
+  display:flex;
+  gap:12px;
+  align-items:center;
   font-family:'JetBrains Mono',monospace;
   font-size:9px;
   letter-spacing:.12em;
-  color:#C9A461;
-  border:1px solid rgba(201,164,97,0.34);
-  background:rgba(10,9,6,0.74);
-  padding:8px 10px;
-  opacity:0;
-  transform:translateY(12px);
-  animation:markerAppear 4.8s ease forwards;
-}
-
-.m1{top:25%;left:18%;animation-delay:.4s;}
-.m2{top:62%;left:22%;animation-delay:.8s;}
-.m3{top:31%;right:23%;animation-delay:1.1s;}
-.m4{bottom:26%;right:18%;animation-delay:1.4s;}
-.m5{bottom:18%;left:45%;animation-delay:1.7s;}
-
-.social-residue{
-  position:absolute;
-  z-index:3;
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;
-  letter-spacing:.14em;
+  color:rgba(201,164,97,.72);
   text-transform:uppercase;
-  color:rgba(181,103,61,0.68);
   opacity:0;
-  animation:residueDrift 5.8s ease forwards;
 }
 
-.r1{top:18%;left:40%;animation-delay:.5s;}
-.r2{top:45%;left:12%;animation-delay:.9s;}
-.r3{top:72%;left:30%;animation-delay:1.2s;}
-.r4{top:48%;right:13%;animation-delay:1.5s;}
-.r5{top:23%;right:39%;animation-delay:1.8s;}
-.r6{bottom:14%;right:32%;animation-delay:2.1s;}
+.sequence-slide.active .sequence-status{
+  animation:statusIn .9s ease 1.2s forwards;
+}
 
-.cultural-fragment{
+.sequence-status span{
+  border:1px solid rgba(201,164,97,.22);
+  background:rgba(5,4,3,.54);
+  padding:8px 10px;
+}
+
+.sequence-progress{
   position:absolute;
-  z-index:2;
-  color:rgba(232,224,204,0.26);
-  font-family:'Source Serif 4',serif;
-  font-style:italic;
-  font-size:clamp(1rem,2vw,1.6rem);
-  opacity:0;
-  animation:fragmentFade 5.8s ease forwards;
+  left:0;
+  right:0;
+  bottom:0;
+  height:2px;
+  z-index:9;
+  background:rgba(201,164,97,.08);
 }
 
-.f1{top:17%;left:9%;animation-delay:.7s;}
-.f2{top:15%;right:12%;animation-delay:1s;}
-.f3{bottom:19%;left:10%;animation-delay:1.3s;}
-.f4{bottom:23%;right:9%;animation-delay:1.6s;}
-
-.human-silhouette{
-  position:absolute;
-  z-index:3;
-  width:42px;
-  height:70px;
-  border:1px solid rgba(232,224,204,0.24);
-  border-radius:50% 50% 42% 42%;
-  opacity:0;
-  animation:silhouettePulse 5.6s ease forwards;
+.sequence-progress::before{
+  content:"";
+  display:block;
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#B5673D,#C9A461);
 }
 
-.human-silhouette::before{
+.sequence-slide.active .sequence-progress::before{
+  animation:slideProgress 7.4s linear forwards;
+}
+
+.sequence-final{
+  background:
+    radial-gradient(circle at center, rgba(181,103,61,.16), transparent 28%),
+    radial-gradient(circle at 50% 70%, rgba(201,164,97,.08), transparent 38%),
+    #050403;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
+}
+
+.sequence-final::before{
   content:"";
   position:absolute;
-  width:18px;
-  height:18px;
-  border-radius:50%;
-  border:1px solid rgba(232,224,204,0.28);
-  left:50%;
-  top:-16px;
-  transform:translateX(-50%);
+  inset:0;
+  opacity:.14;
+  background-image:url('research-intro-4.jpg');
+  background-size:cover;
+  background-position:center;
+  filter:brightness(.25) blur(1px);
 }
 
-.s1{top:36%;left:18%;animation-delay:1.1s;}
-.s2{top:57%;left:36%;animation-delay:1.5s;}
-.s3{top:34%;right:31%;animation-delay:1.9s;}
-.s4{top:58%;right:17%;animation-delay:2.3s;}
-
-.intro-core{
+.sequence-final-inner{
   position:relative;
-  z-index:10;
-  text-align:center;
-  max-width:780px;
-  padding:0 24px;
+  z-index:2;
+  max-width:890px;
   opacity:0;
-  transform:translateY(14px) scale(.98);
-  animation:introCoreEnter 1.2s ease forwards;
+  transform:translateY(16px);
 }
 
-.intro-kicker{
+.sequence-final.active .sequence-final-inner{
+  animation:finalReveal 1.4s ease forwards;
+}
+
+.final-kicker{
   font-family:'JetBrains Mono',monospace;
-  font-size:10px;
-  letter-spacing:.22em;
+  font-size:11px;
+  letter-spacing:.24em;
   text-transform:uppercase;
-  color:var(--copper);
+  color:#B5673D;
   margin-bottom:18px;
 }
 
-.intro-title{
+.final-title{
   font-family:'Source Serif 4',serif;
-  font-size:clamp(3.4rem,7vw,7rem);
+  font-size:clamp(3.2rem,7vw,6.8rem);
   line-height:.92;
   font-weight:700;
   color:#E8E0CC;
   letter-spacing:-.02em;
+  margin-bottom:20px;
+  text-shadow:0 18px 60px rgba(0,0,0,.72);
 }
 
-.intro-sub{
+.final-sub{
   font-family:'Source Serif 4',serif;
-  font-size:clamp(1.05rem,2vw,1.45rem);
-  line-height:1.45;
   font-style:italic;
-  color:rgba(232,224,204,0.68);
-  margin-top:24px;
+  font-size:clamp(1.05rem,2vw,1.45rem);
+  line-height:1.5;
+  color:rgba(232,224,204,.74);
 }
 
-.case-stamp{
+.sequence-final-stamp{
   display:inline-block;
-  margin-top:28px;
+  margin-top:26px;
   font-family:'JetBrains Mono',monospace;
   font-size:10px;
   letter-spacing:.16em;
   color:#C9A461;
-  border:1px solid rgba(201,164,97,0.36);
-  padding:9px 14px;
-  transform:rotate(-2deg);
+  border:1px solid rgba(201,164,97,.38);
+  padding:10px 14px;
+  transform:rotate(-1.5deg);
 }
 
-.intro-skip{
+.sequence-skip{
   position:absolute;
-  right:34px;
-  bottom:30px;
-  z-index:20;
-  background:transparent;
-  border:1px solid rgba(201,164,97,0.35);
+  right:28px;
+  bottom:24px;
+  z-index:30;
+  background:rgba(10,9,6,.62);
+  border:1px solid rgba(201,164,97,.35);
   color:#C9A461;
   font-family:'JetBrains Mono',monospace;
-  font-size:9px;
+  font-size:10px;
   letter-spacing:.14em;
   padding:10px 14px;
   cursor:pointer;
   transition:all .25s ease;
 }
 
-.intro-skip:hover{
-  background:rgba(201,164,97,0.08);
+.sequence-skip:hover{
+  background:rgba(10,9,6,.94);
   border-color:#C9A461;
 }
 
-@keyframes worldReveal{
-  0%{opacity:0;filter:blur(6px);transform:scale(.96);}
-  18%{opacity:.9;filter:blur(0);transform:scale(1);}
-  76%{opacity:.72;}
-  100%{opacity:0;filter:blur(5px);transform:scale(1.03);}
+@keyframes slideProgress{to{width:100%;}}
+
+@keyframes labelIn{
+  to{opacity:1;transform:translateY(0);}
 }
 
-@keyframes lineTrace{
-  0%{opacity:0;clip-path:inset(0 100% 0 0);}
-  28%{opacity:1;clip-path:inset(0 0 0 0);}
-  78%{opacity:.7;}
-  100%{opacity:0;filter:blur(4px);}
+@keyframes statusIn{
+  to{opacity:1;}
 }
 
-@keyframes markerAppear{
-  0%{opacity:0;transform:translateY(12px) scale(.96);}
-  22%{opacity:1;transform:translateY(0) scale(1);}
-  75%{opacity:.86;}
-  100%{opacity:0;transform:translateY(-18px) scale(1.02);filter:blur(3px);}
+@keyframes finalReveal{
+  to{opacity:1;transform:translateY(0);}
 }
 
-@keyframes residueDrift{
-  0%{opacity:0;transform:translateY(18px) rotate(-2deg);}
-  24%{opacity:1;}
-  72%{opacity:.8;}
-  100%{opacity:0;transform:translateY(-30px) rotate(4deg);filter:blur(4px);}
+/* each frame has five forensic spotlight passes */
+@keyframes scanFrameOne{
+  0%{clip-path:circle(0px at 18% 22%);}
+  7%{clip-path:circle(145px at 18% 22%);}
+  18%{clip-path:circle(150px at 46% 42%);}
+  31%{clip-path:circle(142px at 64% 38%);}
+  46%{clip-path:circle(150px at 33% 70%);}
+  61%{clip-path:circle(145px at 70% 78%);}
+  78%{clip-path:circle(155px at 50% 52%);}
+  100%{clip-path:circle(0px at 50% 52%);}
 }
 
-@keyframes fragmentFade{
-  0%{opacity:0;transform:scale(.96);}
-  25%{opacity:.55;transform:scale(1);}
-  72%{opacity:.35;}
-  100%{opacity:0;filter:blur(4px);}
+@keyframes scanFrameTwo{
+  0%{clip-path:circle(0px at 30% 46%);}
+  7%{clip-path:circle(155px at 30% 46%);}
+  20%{clip-path:circle(150px at 47% 40%);}
+  34%{clip-path:circle(145px at 58% 60%);}
+  49%{clip-path:circle(148px at 76% 35%);}
+  66%{clip-path:circle(150px at 22% 78%);}
+  83%{clip-path:circle(160px at 50% 58%);}
+  100%{clip-path:circle(0px at 50% 58%);}
 }
 
-@keyframes silhouettePulse{
-  0%{opacity:0;transform:translateY(10px) scale(.94);}
-  22%{opacity:.65;transform:translateY(0) scale(1);}
-  42%{opacity:.18;}
-  62%{opacity:.62;}
-  100%{opacity:0;transform:translateY(-18px) scale(1.05);filter:blur(3px);}
+@keyframes scanFrameThree{
+  0%{clip-path:circle(0px at 50% 28%);}
+  8%{clip-path:circle(150px at 50% 28%);}
+  22%{clip-path:circle(145px at 39% 47%);}
+  36%{clip-path:circle(148px at 72% 37%);}
+  52%{clip-path:circle(145px at 25% 72%);}
+  68%{clip-path:circle(150px at 63% 73%);}
+  84%{clip-path:circle(160px at 53% 54%);}
+  100%{clip-path:circle(0px at 53% 54%);}
 }
 
-@keyframes introCoreEnter{
-  from{opacity:0;transform:translateY(14px) scale(.98);}
-  to{opacity:1;transform:translateY(0) scale(1);}
+@keyframes scanFrameFour{
+  0%{clip-path:circle(0px at 45% 26%);}
+  8%{clip-path:circle(160px at 45% 26%);}
+  23%{clip-path:circle(150px at 38% 49%);}
+  38%{clip-path:circle(145px at 58% 48%);}
+  54%{clip-path:circle(150px at 74% 68%);}
+  70%{clip-path:circle(145px at 31% 76%);}
+  86%{clip-path:circle(175px at 50% 50%);}
+  100%{clip-path:circle(0px at 50% 50%);}
+}
+
+@keyframes lensFrameOne{
+  0%{opacity:0;left:18%;top:22%;width:0;height:0;}
+  7%{opacity:1;left:18%;top:22%;width:230px;height:230px;}
+  18%{left:46%;top:42%;}
+  31%{left:64%;top:38%;}
+  46%{left:33%;top:70%;}
+  61%{left:70%;top:78%;}
+  78%{left:50%;top:52%;}
+  100%{opacity:0;left:50%;top:52%;width:0;height:0;}
+}
+
+@keyframes lensFrameTwo{
+  0%{opacity:0;left:30%;top:46%;width:0;height:0;}
+  7%{opacity:1;left:30%;top:46%;width:240px;height:240px;}
+  20%{left:47%;top:40%;}
+  34%{left:58%;top:60%;}
+  49%{left:76%;top:35%;}
+  66%{left:22%;top:78%;}
+  83%{left:50%;top:58%;}
+  100%{opacity:0;left:50%;top:58%;width:0;height:0;}
+}
+
+@keyframes lensFrameThree{
+  0%{opacity:0;left:50%;top:28%;width:0;height:0;}
+  8%{opacity:1;left:50%;top:28%;width:235px;height:235px;}
+  22%{left:39%;top:47%;}
+  36%{left:72%;top:37%;}
+  52%{left:25%;top:72%;}
+  68%{left:63%;top:73%;}
+  84%{left:53%;top:54%;}
+  100%{opacity:0;left:53%;top:54%;width:0;height:0;}
+}
+
+@keyframes lensFrameFour{
+  0%{opacity:0;left:45%;top:26%;width:0;height:0;}
+  8%{opacity:1;left:45%;top:26%;width:250px;height:250px;}
+  23%{left:38%;top:49%;}
+  38%{left:58%;top:48%;}
+  54%{left:74%;top:68%;}
+  70%{left:31%;top:76%;}
+  86%{left:50%;top:50%;width:280px;height:280px;}
+  100%{opacity:0;left:50%;top:50%;width:0;height:0;}
 }
 
 @media(max-width:768px){
-  .evidence-marker{
-    font-size:7px;
-    padding:6px 8px;
+  .sequence-label{
+    top:24px;
+    left:22px;
+    max-width:86%;
+    column-gap:12px;
   }
 
-  .social-residue{
+  .sequence-sub{
     font-size:8px;
+    letter-spacing:.12em;
   }
 
-  .cultural-fragment{
-    font-size:1rem;
+  .sequence-status{
+    left:20px;
+    bottom:66px;
+    flex-wrap:wrap;
+    max-width:90%;
   }
 
-  .s3,
-  .s4,
-  .r5,
-  .r6,
-  .f3,
-  .f4{
-    display:none;
+  .sequence-status span{
+    font-size:8px;
+    padding:7px 8px;
   }
 
-  .intro-skip{
-    right:20px;
-    bottom:20px;
+  .sequence-skip{
+    right:18px;
+    bottom:18px;
+    font-size:9px;
   }
 }
-  
+
 /* ── NAV (always dark) ────────────────────────────────── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
@@ -682,48 +819,79 @@ footer{padding:28px 40px;border-top:1px solid var(--border);
 </head>
 <body class="intro-lock">
 
-<!-- ── FULL INTRO: THE WORLD AS CASE SCENE ───────────────── -->
-<section class="research-intro" id="researchIntro" aria-label="MetaVoxa Research intro">
-  <div class="case-grid"></div>
-  <div class="world-outline"></div>
-
-  <div class="case-line l1"></div>
-  <div class="case-line l2"></div>
-  <div class="case-line l3"></div>
-  <div class="case-line l4"></div>
-
-  <div class="evidence-marker m1">EVIDENCE 01 · DATA GAP</div>
-  <div class="evidence-marker m2">EVIDENCE 02 · DIAGNOSTIC DELAY</div>
-  <div class="evidence-marker m3">EVIDENCE 03 · CULTURAL SILENCE</div>
-  <div class="evidence-marker m4">EVIDENCE 04 · INSTITUTIONAL MISREADING</div>
-  <div class="evidence-marker m5">EVIDENCE 05 · MIGRATION VARIABLE</div>
-
-  <div class="social-residue r1">DUTY</div>
-  <div class="social-residue r2">SHAME</div>
-  <div class="social-residue r3">RESPECTABILITY</div>
-  <div class="social-residue r4">OBEDIENCE</div>
-  <div class="social-residue r5">SILENCE</div>
-  <div class="social-residue r6">LEGIBILITY</div>
-
-  <div class="cultural-fragment f1">“be strong”</div>
-  <div class="cultural-fragment f2">“pray about it”</div>
-  <div class="cultural-fragment f3">“what will people say?”</div>
-  <div class="cultural-fragment f4">“family first”</div>
-
-  <div class="human-silhouette s1"></div>
-  <div class="human-silhouette s2"></div>
-  <div class="human-silhouette s3"></div>
-  <div class="human-silhouette s4"></div>
-
-  <div class="intro-core">
-    <p class="intro-kicker">The world is the case scene</p>
-    <h1 class="intro-title">MetaVoxa<br>Research</h1>
-    <p class="intro-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
-    <div class="case-stamp">GAP CONFIRMED</div>
+<!-- ── RESEARCH INTRO SEQUENCE: FORENSIC SPOTLIGHT ───────── -->
+<div class="research-sequence" id="researchSequence" aria-label="MetaVoxa Research intro">
+  <div class="sequence-slide frame-1 active" id="seq1" style="--bg-img:url('research-intro-1.jpg');">
+    <div class="sequence-lit"></div>
+    <div class="sequence-lens"></div>
+    <div class="sequence-noise"></div>
+    <div class="sequence-label">
+      <div class="sequence-num">1</div>
+      <div>
+        <h2 class="sequence-title">Case Opened</h2>
+        <p class="sequence-sub">Initiating investigation</p>
+      </div>
+    </div>
+    <div class="sequence-status"><span>Case file · MVX-RR-001</span><span>Status · Open</span></div>
+    <div class="sequence-progress"></div>
   </div>
 
-  <button class="intro-skip" id="skipResearchIntro">SKIP INTRO</button>
-</section>
+  <div class="sequence-slide frame-2" id="seq2" style="--bg-img:url('research-intro-2.jpg');">
+    <div class="sequence-lit"></div>
+    <div class="sequence-lens"></div>
+    <div class="sequence-noise"></div>
+    <div class="sequence-label">
+      <div class="sequence-num">2</div>
+      <div>
+        <h2 class="sequence-title">The World Is The Crime Scene</h2>
+        <p class="sequence-sub">Mapping the evidence</p>
+      </div>
+    </div>
+    <div class="sequence-status"><span>Scene · Global</span><span>Evidence markers detected</span></div>
+    <div class="sequence-progress"></div>
+  </div>
+
+  <div class="sequence-slide frame-3" id="seq3" style="--bg-img:url('research-intro-3.jpg');">
+    <div class="sequence-lit"></div>
+    <div class="sequence-lens"></div>
+    <div class="sequence-noise"></div>
+    <div class="sequence-label">
+      <div class="sequence-num">3</div>
+      <div>
+        <h2 class="sequence-title">Social &amp; Cultural Residue</h2>
+        <p class="sequence-sub">Examining the context</p>
+      </div>
+    </div>
+    <div class="sequence-status"><span>Pattern detected</span><span>Rules become residue</span></div>
+    <div class="sequence-progress"></div>
+  </div>
+
+  <div class="sequence-slide frame-4" id="seq4" style="--bg-img:url('research-intro-4.jpg');">
+    <div class="sequence-lit"></div>
+    <div class="sequence-lens"></div>
+    <div class="sequence-noise"></div>
+    <div class="sequence-label">
+      <div class="sequence-num">4</div>
+      <div>
+        <h2 class="sequence-title">Gap Confirmed. Research Initiated.</h2>
+        <p class="sequence-sub">Entering research registry</p>
+      </div>
+    </div>
+    <div class="sequence-status"><span>Evidence sufficiency · High</span><span>Registry initiated</span></div>
+    <div class="sequence-progress"></div>
+  </div>
+
+  <div class="sequence-final" id="sequenceFinal">
+    <div class="sequence-final-inner">
+      <p class="final-kicker">MetaVoxa Research</p>
+      <h1 class="final-title">METAVOXA RESEARCH</h1>
+      <p class="final-sub">Where gaps are identified, evidence is generated, and change is documented.</p>
+      <div class="sequence-final-stamp">ENTERING RESEARCH REGISTRY</div>
+    </div>
+  </div>
+
+  <button class="sequence-skip" id="skipSequence" type="button">SKIP INTRO</button>
+</div>
 
 
 <!-- ── NAV ─────────────────────────────── -->
@@ -961,45 +1129,89 @@ footer{padding:28px 40px;border-top:1px solid var(--border);
 </div>
 
 <script>
-// ── FULL INTRO ────────────────────────────────────────────
-const researchIntro = document.getElementById('researchIntro');
-const skipResearchIntro = document.getElementById('skipResearchIntro');
+// ── RESEARCH INTRO SEQUENCE ───────────────────────────
+const researchSequence = document.getElementById('researchSequence');
+const skipSequence = document.getElementById('skipSequence');
+const sequenceFinal = document.getElementById('sequenceFinal');
+const seqSlides = [
+  document.getElementById('seq1'),
+  document.getElementById('seq2'),
+  document.getElementById('seq3'),
+  document.getElementById('seq4')
+].filter(Boolean);
 
-function revealResearchSite(){
-  if(!researchIntro) return;
+let seqTimers = [];
 
-  researchIntro.classList.add('hide');
-  document.body.classList.remove('intro-lock');
+function clearSequenceTimers(){
+  seqTimers.forEach(timer => clearTimeout(timer));
+  seqTimers = [];
+}
 
-  setTimeout(() => {
-    researchIntro.style.display = 'none';
-  }, 1200);
+function showSequenceSlide(index){
+  seqSlides.forEach(slide => {
+    slide.classList.remove('active');
+    /* restart CSS animations cleanly whenever a slide is revisited */
+    slide.style.animation = 'none';
+    slide.offsetHeight;
+    slide.style.animation = '';
+  });
+
+  if(sequenceFinal) sequenceFinal.classList.remove('active');
+
+  const nextSlide = seqSlides[index];
+  if(nextSlide){
+    nextSlide.classList.add('active');
+  }
+}
+
+function showSequenceFinal(){
+  seqSlides.forEach(slide => slide.classList.remove('active'));
+  if(sequenceFinal) sequenceFinal.classList.add('active');
+}
+
+function endSequence(){
+  clearSequenceTimers();
+
+  if(researchSequence){
+    researchSequence.classList.add('hide');
+    document.body.classList.remove('intro-lock');
+
+    setTimeout(() => {
+      researchSequence.style.display = 'none';
+    }, 1250);
+  }else{
+    document.body.classList.remove('intro-lock');
+  }
 
   sessionStorage.setItem('metavoxaResearchIntroSeen','true');
 }
 
-function runResearchIntro(){
-  if(!researchIntro){
+function runSequence(){
+  if(!researchSequence){
     document.body.classList.remove('intro-lock');
     return;
   }
 
   const alreadySeen = sessionStorage.getItem('metavoxaResearchIntroSeen') === 'true';
-
   if(alreadySeen){
-    researchIntro.style.display = 'none';
+    researchSequence.style.display = 'none';
     document.body.classList.remove('intro-lock');
     return;
   }
 
-  setTimeout(revealResearchSite, 7200);
+  showSequenceSlide(0);
+  seqTimers.push(setTimeout(() => showSequenceSlide(1), 7400));
+  seqTimers.push(setTimeout(() => showSequenceSlide(2), 14800));
+  seqTimers.push(setTimeout(() => showSequenceSlide(3), 22200));
+  seqTimers.push(setTimeout(() => showSequenceFinal(), 29600));
+  seqTimers.push(setTimeout(() => endSequence(), 34200));
 }
 
-if(skipResearchIntro){
-  skipResearchIntro.addEventListener('click', revealResearchSite);
+if(skipSequence){
+  skipSequence.addEventListener('click', endSequence);
 }
 
-window.addEventListener('load', runResearchIntro);
+window.addEventListener('load', runSequence);
 
 // ── DATA ──────────────────────────────────────────────────
 const INVESTIGATIONS=[
